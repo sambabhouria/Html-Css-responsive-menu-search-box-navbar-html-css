@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom'
+
 import './App.css';
 
-function App() {
+import { Header } from "./components/header/header";
+
+import Home from './components/home'
+import Contact from './components/contact'
+import Service from './components/service'
+import About from './components/about'
+ 
+import './App.css';
+
+const App = () => {
+
+  const [expend, setExpend] =  useState(false);
+  
+  const expended = isExpended => {
+		console.log(isExpended)
+    setExpend(isExpended)
+	}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <Router>
+        <Header  expended={expended}  />
+        <div className={`content ${expend ? "show" : " "}`}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/services" component={Service} />
+            <Route exact path="/contact" component={Contact} />
+            <Redirect to="/" />
+          </Switch>
+        </div>
+      </Router>
+  )
 }
 
 export default App;
